@@ -1,0 +1,64 @@
+include header
+  //- h1 ${message}
+input(type="file" accept="video/*" capture style="display: none;")
+canvas(id="canvas" style="display: block;")
+video(id="v" style="display: none;")
+img(id="photo")
+h1(id="tx")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js")
+script(type='text/javascript').
+  //- var socket = io();
+  //- var frames = io.connect('http://localhost:8080');
+  //- //- var socket = io();
+  //- frames.on('message', function(data) {
+  //-   console.log(data);
+  //-   $("#tx").text(data );
+  //-   $("#photo").attr("src",data );
+  //- });
+  
+  
+  var view = io.connect('http://localhost:8080');
+  
+  view.on('message', function (data) {
+    console.log(data);
+    //- view.emit({message:});
+  });
+  
+  
+  ;(function(){
+      function userMedia(){
+          return navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || null;
+      }
+
+      if( userMedia() ){
+          var constraints = {
+              video: true,
+              audio:false
+          };
+          var media = navigator.getUserMedia(constraints, function(stream){
+              var v = document.getElementById('v');
+              var url = window.URL || window.webkitURL;
+              v.src = url ? url.createObjectURL(stream) : stream;
+              v.play();
+              
+              //- socket.on('message', function(message) {
+              //-     alert('The server has a message for you: ' + message);
+              //- })
+              setInterval(()=>{
+                var canvas = document.getElementById('canvas');
+                canvas.width = 500;
+                canvas.height = 500;
+                canvas.getContext('2d').drawImage(v, 0, 0);
+                var data = canvas.toDataURL('image/jpeg');
+                view.emit('message',{"message":data});
+                
+              },20)
+          }, function(error){
+              console.log("ERROR");
+              alert(error);
+          });
+      } else {
+          console.log("KO");
+      }
+  })();
+include footer

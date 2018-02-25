@@ -1,0 +1,31 @@
+include header
+div(ng-app="app" ng-controller="ctrl")
+  div.cont_forms
+    div.row
+      div.col
+        form(ng-submit="submit()").form-group
+            label(for='exampleInputEmail1') Email address
+            input#exampleInputEmail1.form-control(type='email', ng-model='email', placeholder='Enter email').form-group
+            label(for='exampleInputPassword1') Password
+            input#exampleInputPassword1.form-control(type='password', placeholder='Password', ng-model='password').form-check
+            input#exampleCheck1.form-check-input(type='checkbox')
+            label.form-check-label(for='exampleCheck1') Check me out
+            div
+              button.btn.btn-primary(type='submit') Submit    
+      div.col
+        form(ng-submit="register()").form-group
+            label(for='name2') Name
+            input#name2.form-control(type='text', ng-model='name2', placeholder='Enter Name').form-group
+            label(for='lastName2') Last name
+            input#lastName2.form-control(type='text', ng-model='lastName2', placeholder='Enter last name').form-group
+            label(for='email2') Email
+            input#email2.form-control(type='email', placeholder='Email', ng-model='email2').form-check
+            label(for='phone2') Phone
+            input#phone2.form-control(type='text', placeholder='Phone', ng-model='phone2').form-check
+            label(for='phone2') Password
+            input#phone2.form-control(type='password', placeholder='Password', ng-model='password2').form-check            
+            input#password.form-check-input(type='checkbox', ng-model="newsletter")
+            label.form-check-label(for='check2') Sendme newsletter
+            div
+              button.btn.btn-primary(type='submit') Submit
+include footer
